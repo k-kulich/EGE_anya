@@ -156,4 +156,51 @@ def task5():
         break  # иначе (т е если внутренний прервался, то прервем и этот)
 
 
-task5()
+def task6():
+
+    def to_other_base(number: int, base: int) -> str:
+        """перевод из 10ичной в другую систему счисления"""
+        result = ''
+        while number > 0:
+            digit = number % base  # новая цифра числа
+            if digit < 10:
+                result = str(digit) + result
+            else:
+                # chr -- делает букву из числа
+                # ord -- делает число из буквы
+                result = chr(ord('A') + digit - 10) + result
+            number //= base
+        return result  # строка - число в другой СС
+
+
+    def sum_of_even_digits(number: str) -> int:
+        """считаем сумму четных цифр в любой СС"""
+        summ = 0
+        for sym in number:
+            if sym.isdigit() and int(sym) % 2 == 0:  # если это цифра в 10ичной СС
+                summ += int(sym)
+            elif sym.isalpha():  # если это буква, то надо снова через коды
+                # получим число по коду буквы:
+                # то есть делаем все наоборот от sym = chr(ord('A') + digit - 10)
+                digit = ord(sym)  # код буквы  - теперь digit == ord('A') + digit - 10
+                digit += 10  # вернули обратно 10ку, которую вычитали, теперь digit == ord('A') + digit
+                digit -= ord('A')  # отняли код буквы A (это 65), теперь digit = digit
+                if digit % 2 == 0:  # если это четная цифра, то нужно увеличить счетчик
+                    summ += digit
+        return summ  # в ответе получаем сумму четных цифр в числе
+
+    hex_num = to_other_base(154, 16)
+    print('Результат перевода числа 154 в 16ричную СС:', hex_num)
+    print('Четных цифр в числе:', sum_of_even_digits(hex_num))
+
+    # по условию если:
+    print('\n\nСама задача из условия:')
+    num = 625 ** 90  +  125 * 120  -  5 * 25   # изначальное число 
+    print('Изначальное число в 10ичной:', num)
+    num_in_base = to_other_base(num, 25)
+    print('Число в 25ричной СС:', num_in_base)
+    summ = sum_of_even_digits(num_in_base)
+    print('Сумма его четных цифр в 25ричной СС:', summ)
+
+
+task6()
