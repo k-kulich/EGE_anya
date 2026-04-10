@@ -32,7 +32,7 @@ def task1():
 
 # G (n) = 0  , при n < 5  ;
 # G (5) = 1  ;
-# G (n) = G(n − 1) + F(n− 2)  , при n > 5  .
+# G (n) = G(n − 1) + F(n − 2)  , при n > 5  .
 
 # Определите значение F(5) + G(8).
 
@@ -42,8 +42,8 @@ def task2():
             return 2
         if n == 1:
             return 5
-        if n > 1:
-            return f(n - 1) * f(n - 2)
+        
+        return f(n - 1) * f(n - 2)
     
     def g(n):
         if n < 5:
