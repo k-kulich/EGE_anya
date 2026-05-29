@@ -37,7 +37,7 @@ def task1():
 def task2():
     turtle.screensize (800, 800)
     cell_size = 20
-    turtle.tracer (50)
+    # turtle.tracer (50)
 
     turtle.penup()
     for y in range (-12, 12):
@@ -63,7 +63,7 @@ def task2():
 def task3():
     turtle.screensize(800, 800)
     cell_size = 20
-    turtle.tracer (50)
+    turtle.tracer(50)
 
     turtle.penup()
     for y in range (-12, 12):
@@ -93,4 +93,4 @@ def task3():
     turtle.mainloop()
 
 
-task3()
+task2()

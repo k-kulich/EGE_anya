@@ -100,5 +100,130 @@ def ex2():
 
     
 def task1():
-    """29355"""
+    """29355
+    
+    89*6?7?9?  до 10^10
 
+    891677598
+    8901677598
+    """
+    answers = ''
+    for num1 in range(-11, 100): # вместо звездочки до 2х чисел
+        for num2 in range(10):
+            for num3 in range(10):
+                for num4 in range(10):
+                    if num1 == -11:
+                        n = int(f'896{num2}7{num3}9{num4}')
+                    elif num1 < 0:  # проверяем "просто цифры"
+                        n = int(f'89{num1 + 10}6{num2}7{num3}9{num4}')
+                    elif num1 < 10:  # теперь цифры, где вначале 0 стоит
+                        n = int(f'890{num1}6{num2}7{num3}9{num4}')
+                    else:
+                        n = int(f'89{num1}6{num2}7{num3}9{num4}')
+                    if n % 9874 == 0:
+                        answers += f'{n} {n // 9874}\n'
+                        print(n, n // 9874)
+    correct = """8901677598 901527\n8905627198 901927\n8912617990 902635\n8941667298 905577\n8952607690 906685\n8970607992 908508\n8988647790 910335\n"""
+    assert answers == correct
+
+
+def ex3():
+    """29927"""
+    # определять простое ли число
+    # раскладывать на простые множители
+    # определять, палиндром ли число
+
+    # start = 12_345_678  - скорее всего ответы больше числа не более чем на порядок
+    
+    # напишем отдельную функцию для разложения на простые множители
+    def get_prime_factors(number):
+        fact = []  # список, куда мы сложим по порядку все простые делители
+        div = 2
+        start = number
+        while div ** 2 <= start:  # до корня из числа
+            while number % div == 0:  # ПОКА число делится, мы должны запоминать как множитель
+                fact.append(div)
+                number //= div
+                # if start in {12345705, 12345708, 12345718, 12345810, 12345830, 12345831, 12345832}:
+                #     print(f'{start} = {' * '.join(map(str, fact))} * {number}')
+            div += 1
+            if number == 1:  # если бы доебашили до конца
+                break
+        if number != 1:  # если осталась хуйня после деления, то это тоже простой делитель
+            fact.append(number)
+        return fact  # возвращаем список простых множителей
+    
+    def is_palindrome(number):  # проверка на то, палиндром ли
+        str_num = str(number)
+        # if '4' in str_num or '7' in str_num:
+        #     return True
+        check = (str_num == str_num[::-1])
+        return check  # True, если число равно самому себе наоборот, False иначе
+
+    # теперь сам перебор
+    num = 12_345_678 + 1
+    counter = 0  # счетчик ответов
+    while counter != 7:
+        # для начала найдем простые делители для числа
+        factors = get_prime_factors(num)
+        # теперь проверим, что их ровно 3
+        if len(factors) == 3:  # len - кол-во объектов в коллекции/строке
+            # INSERT YOUR CYCLE HERE
+            # for f in factors:
+            #     if not is_74(f):
+            #         break
+            # else:  # в этот else уйдем, если не был вызван break
+            #     # печать ответа и counter += 1
+            max_factor = max(factors)  # максимальный делитель
+            if is_palindrome(max_factor):
+                # print(factors)
+                print(num, max_factor)
+                counter += 1
+        # НЕ ЗАБЫВАЕМ В WHILE ВРУЧНУЮ УВЕЛИЧИВАТЬ NUM
+        num += 1
+    """28711"""
+
+
+def ex4():
+    """19889"""
+    # 902714
+    # если мы разложим число на простые множители, и среди них будет 5, то мы сможем составить множитель
+    # по условию (тот, который не равен 5)
+    # здесь снова все сводится к разложению на простые множители
+    def get_prime_factors(number):
+        """получим список простых делителей числа"""
+        fact = []
+        div = 2
+        start = number
+        while div ** 2 <= start:
+            while number % div == 0:
+                fact.append(div)
+                number //= div
+            div += 1
+            if number == 1:
+                break
+        if number != 1:
+            fact.append(number)
+        return fact
+
+    # сам перебор
+    num = 902714 + 1  # начнем с числа, кратного 5, и будем идти только по кратным 5
+    count = 0  # до 6
+    while count < 6:
+        factors = get_prime_factors(num)  # получаем все простые делители
+        if 5 in factors:  # если кратно 5
+            index_5 = factors.index(5)  # индекс того, где впервые встречается 5
+            min_num = num  # зададим для поиска минимального делителя
+            for i in range(len(factors)):  # i - индекс текущего делителя в factors
+                div = factors[i]
+                if div % 2 == 1 and i != index_5:  # нам нужно другое минимальное нечетное число
+                    # похуй если тоже 5, главное, чтобы не та же самая 5
+                    min_num = div
+                    break  # выходим
+            # теперь min_num * 5 дадут нам искомый делитель: минимальный, оканч на 5
+            # надо только проверить, что он не равен самому числу
+            if 5 * min_num != num:
+                print(num, min_num * 5)
+                count += 1
+        # увеличиваем сразу на 5
+        num += 5
