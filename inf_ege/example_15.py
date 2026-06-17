@@ -19,3 +19,21 @@ for a in range(10000):  # с запасом
 # Для какого наименьшего целого неотрицательного числа A выражение
 # (x^2 − 3x+ 2 > 0) ∨ (y > x^2 + 7) ∨ (xy < A)
 # тождественно истинно, т.е. принимает значение 1 при любых целых неотрицательных x, y?
+
+# 5437
+
+for a in range(1, 1000):
+    is_a_correct = True
+    for z in range(1000):
+        for y in range(1000):
+            for x in range(1000):
+                # print(z, y, x, a)
+                if (((z % 115 != 0) and (y % 78 != 0) and (x % 51 != 0)) or (x % a == 0)) == False:
+                    is_a_correct = False
+                    break
+            if not is_a_correct:
+                break
+        if not is_a_correct:
+            break
+    if is_a_correct: 
+        print(a)  # 1

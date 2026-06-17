@@ -148,3 +148,74 @@ def ex2():
 def task1():
     """20907"""
     
+
+def remember1():
+    """3581
+    +1  *2"""
+
+    def game_19(heap1, heap2, turn):
+        """НЕУДАЧНЫЙ ХОД ПЕТИ -> есть хотя бы 1 вариант, как он мог облажаться и привести к победе
+        Вани.
+        НЕУДАЧНЫЙ = хотя бы 1 = для того, ЗА кого мы играем сейчас (Ваня) = any
+        ПРИ ЛЮБОМ ХОДЕ = наш оппонент (обычно) = all"""
+        # итог 1 хода Вани - это 2 (то есть победу надо проверять, сравнивая с 2)
+        if heap1 + heap2 >= 247:
+            return (turn == 2)  # сравниваем с 2
+        if turn > 2:  # если ходов уже явно нужно больше, чем по условию требовалось
+            return False  # выходим, чтобы ускорить перебор
+        turns = [game_19(heap1 + 1, heap2, turn + 1), game_19(heap1 * 2, heap2, turn + 1),
+                 game_19(heap1, heap2 + 1, turn + 1), game_19(heap1, heap2 * 2, turn + 1)]
+        if turn % 2 == 0:  # четный ход - сейчас это ход оппонента
+            return any(turns)  # НЕУДАЧНЫЙ ХОД = any
+        else:
+            return any(turns)  # мы - всегда any
+    
+    # перебираем S
+    for S in range(1, 229):
+        if game_19(17, S, 0):
+            print(S)
+            break  # так как нам нужно минимальное S, то как только находим, завершаемся
+
+    def game_20(heap1, heap2, turn):
+        # Петя теперь должен победить -> победа нечетная И не 1м ходом -> 3
+        if heap1 + heap2 >= 247:
+            return (turn == 3)  # меняем
+        if turn > 3:  # если ходов уже явно нужно больше, чем по условию требовалось
+            return False  # выходим, чтобы ускорить перебор
+        turns = [game_20(heap1 + 1, heap2, turn + 1), game_20(heap1 * 2, heap2, turn + 1),
+                 game_20(heap1, heap2 + 1, turn + 1), game_20(heap1, heap2 * 2, turn + 1)]
+        if turn % 2 == 1:  # меняем четность
+            return all(turns)  # в 20 задании всегда all
+        else:
+            return any(turns)  # мы - всегда any
+
+    # тут нам надо вывести 2 минимальных значения S
+    count = 0
+    for S in range(1, 229):
+        if game_20(17, S, 0):
+            print(S)
+            count += 1
+            if count == 2:  # чтобы не выводить лишние S
+                break
+    
+    def game_21(heap1, heap2, turn):
+        # Снова Ваня, НО либо 1, либо 2 ходом -> либо 2, либо 4
+        if heap1 + heap2 >= 247:
+            return ((turn == 2) or (turn == 4))  # меняем
+        if turn > 4:  # если ходов уже явно нужно больше, чем по условию требовалось
+            return False  # выходим, чтобы ускорить перебор
+        turns = [game_21(heap1 + 1, heap2, turn + 1), game_21(heap1 * 2, heap2, turn + 1),
+                 game_21(heap1, heap2 + 1, turn + 1), game_21(heap1, heap2 * 2, turn + 1)]
+        if turn % 2 == 0:  # меняем четность
+            return all(turns)  # в 21 задании всегда all
+        else:
+            return any(turns)  # мы - всегда any
+
+    # тут нам надо вывести минимальное значение S
+    for S in range(1, 229):
+        if game_21(17, S, 0):
+            print(S)
+            break
+    
+
+# 23378
